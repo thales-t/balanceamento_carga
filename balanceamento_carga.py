@@ -9,20 +9,18 @@ class User:
     def __init__(self, ):
         self.ttask_restantes = User.ttask
 
-    """Remove um tick (unidade básica de tempo da simulação), da 'ttask_restantes' do usuário, retorna os
-     ticks restantes para terminar a tarefa"""
-
     def remover_tick(self):
+        """Remove um tick (unidade básica de tempo da simulação), da 'ttask_restantes' do usuário, retorna os
+         ticks restantes para terminar a tarefa"""
         self.ttask_restantes -= 1
         if self.ttask_restantes < 0:
             raise Exception("Um erro ocorreu, ttask_restantes nunca deveria ser"
                             " menor que 0! valor='%s'" % self.ttask_restantes)
         return self.ttask_restantes
 
-    """Verifica se ttask esta dentro do limite permitido"""
-
     @staticmethod
     def verificar_limite_ttask():
+        """Verifica se ttask esta dentro do limite permitido"""
         if User.ttask < 1 or User.ttask > 10:
             raise BalanceamentoCargaLimiteException('ttask tem que ser maior ou igual a 1 e menor ou igual a 10!')
         return 0
@@ -34,27 +32,24 @@ class Servidor:
     def __init__(self, usuarios):
         self.usuarios = usuarios
 
-    """Verifica se umax esta dentro do limite permitido"""
-
     @staticmethod
     def verificar_limite_umax():
+        """Verifica se umax esta dentro do limite permitido"""
         if Servidor.umax < 1 or Servidor.umax > 10:
             raise BalanceamentoCargaLimiteException('umax tem que ser maior ou igual a 1 e menor ou igual a 10!')
         return 0
 
-    """Verifica se o servidor tem disponibilidade de alocar um novo usuário,
-    se tiver retorna True, se não tiver retorna False"""
-
     def verificar_disponibilidade(self):
+        """Verifica se o servidor tem disponibilidade de alocar um novo usuário,
+        se tiver retorna True, se não tiver retorna False"""
         if len(self.usuarios) < Servidor.umax:
             return True
         else:
             return False
 
-    """Remove um tick (unidade básica de tempo da simulação) da 'ttask_restantes' de todos os usuários do servidor,
-     e remove os usuários inativos (que não tem mais ttask_restantes)"""
-
     def remover_tick_usuarios(self):
+        """Remove um tick (unidade básica de tempo da simulação) da 'ttask_restantes' de todos os usuários do servidor,
+         e remove os usuários inativos (que não tem mais ttask_restantes)"""
         self.usuarios[:] = [user for user in self.usuarios if user.remover_tick()]
         return self.usuarios
 
@@ -69,9 +64,8 @@ class BalanceamentoCarga:
         self.lista_entrada_tarefas_user = []  # Mantem a lista de eventos de entrada de novos usúarios
         self.servidores = []
 
-    """Procura um servidor com disponibilidade, se não tiver adiciona mais um servidor e aloca o novo usuário"""
-
     def alocar_novos_usuarios(self, qt_user):
+        """Procura um servidor com disponibilidade, se não tiver adiciona mais um servidor e aloca o novo usuário"""
         for item in range(qt_user):
             alocado = False
             for servidor in self.servidores:
@@ -81,33 +75,29 @@ class BalanceamentoCarga:
             if alocado is False:
                 self.servidores.append(Servidor([User()]))
 
-    """Chama a função que remove um tick (unidade básica de tempo da simulação) de cada usuário ativo do servidor
-    e remove os servidores inativos (que já estão sem usuários)"""
-
     def remover_tick_usuarios_servidores(self):
+        """Chama a função que remove um tick (unidade básica de tempo da simulação) de cada usuário ativo do servidor
+        e remove os servidores inativos (que já estão sem usuários)"""
         self.servidores[:] = [servidor for servidor in self.servidores if servidor.remover_tick_usuarios()]
 
-    """Ler o proximo tick do arquivo de entrada e retorna seu valor, se não tiver mais entradas retorna False"""
-
     def ler_prox_tick(self):
+        """Ler o proximo tick do arquivo de entrada e retorna seu valor, se não tiver mais entradas retorna False"""
         line = self.reader.readline()  # Ler o número de novos usuários para esse tick .
         if line:  # Se ainda existir uma entrada
             return int(line)  # Ler a entrada de quantos usuarios novos para esse tick
         else:
             return False
 
-    """Retorna a quantidade de usuários ativos no momento em todos os servidores"""
-
     def quantidade_user_ativos(self):
+        """Retorna a quantidade de usuários ativos no momento em todos os servidores"""
         count = 0
         for servidor in self.servidores:
             count += len(servidor.usuarios)
         return count
 
-    """Escreve uma linha de saida (Output), representado pelo número de usuários
-     em cada servidor separados por vírgula"""
-
     def escrever_saida(self):
+        """Escreve uma linha de saida (Output), representado pelo número de usuários
+         em cada servidor separados por vírgula"""
         saida = ''
         for i, servidor in enumerate(self.servidores):
 
@@ -119,17 +109,15 @@ class BalanceamentoCarga:
         self.writer.write(saida)
         return saida
 
-    """Escreve as linhas finais do arquivo de saida"""
-
     def escrever_resultado_final(self):
+        """Escreve as linhas finais do arquivo de saida"""
         self.writer.write(str(
             self.quantidade_user_ativos()) + '\n')  # Usuários ativos ao termino da execução das tarefas, que deve ser 0 nesse ponto
         self.writer.write(str(self.custo_servidor))  # Custo total por utilização dos servidores
 
-    """Método da classe que (com o auxílio dos outros métodos), entra em loop lendo o arquivo input dado 
-    e escrevendo o resultado no arquivo de saída, ate não ter mais ticks para serem executados"""
-
     def executar_balanceamento(self):
+        """Método da classe que (com o auxílio dos outros métodos), entra em loop lendo o arquivo input dado
+        e escrevendo o resultado no arquivo de saída, ate não ter mais ticks para serem executados"""
         input_lido = False
         while self.servidores or not input_lido:
             qt_novos_user = self.ler_prox_tick()
