@@ -7,9 +7,12 @@ Input (Entrada):
     a segunda linha possui o valor de umax ;
     as demais linhas contém o número de novos usuários para cada tick
 
+
 Limites:
     1 ≤ ttask ≤ 10
+    
     1 ≤ umax ≤ 10
+
 
 Output (Saída):
     Um arquivo ('output.txt') onde cada linha contém uma lista de servidores disponíveis no final de cada tick,
