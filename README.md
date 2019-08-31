@@ -3,7 +3,7 @@ python 3.7
 
 Input (Entrada):
     Deve ser um arquivo texto com o nome 'input.txt' no mesmo diretório do arquivo python que esta
-    sendo executado ('balanceamento_carga.py')
+    sendo executado ('balanceamento_carga.py'). 
     input.txt deve ser um arquivo onde:
     a primeira linha possui o valor de ttask ;
     a segunda linha possui o valor de umax ;
