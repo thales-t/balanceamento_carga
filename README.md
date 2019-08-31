@@ -1,4 +1,6 @@
 # balanceamento_carga
+python 3.7
+
 Input (Entrada):
     Deve ser um arquivo texto com o nome 'input.txt' no mesmo diretório do arquivo python que esta
     sendo executado, 'balanceamento_carga.py'
