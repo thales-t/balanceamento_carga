@@ -9,6 +9,7 @@ Input (Entrada):
 
 
 Limites:
+
     1 ≤ ttask ≤ 10
     
     1 ≤ umax ≤ 10
