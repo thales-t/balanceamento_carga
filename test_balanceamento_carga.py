@@ -116,7 +116,8 @@ class TestBalanceamentoCarga(unittest.TestCase):
         self.assertEqual(self.balanceamento_carga.custo_servidor, 15)
 
         self.balanceamento_carga.writer.close()
-        read_output = open('test_output.txt', 'r').read()
+        self.balanceamento_carga.writer = open('test_output.txt', 'r')
+        read_output = self.balanceamento_carga.writer.read()
         self.assertEqual(read_output, '1\n2,2\n2,2\n2,2,1\n1,2,1\n2\n2\n1\n1\n0\n15')
 
 
