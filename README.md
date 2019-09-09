@@ -22,3 +22,4 @@ Output (Saída):
 representado pelo número de usuários em cada servidor separados por vírgula e, ao final, o
 custo total por utilização dos servidores
    
+[![Coverage Status](https://coveralls.io/repos/github/thales-t/balanceamento_carga/badge.svg?branch=master)](https://coveralls.io/github/thales-t/balanceamento_carga?branch=master)
